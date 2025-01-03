@@ -100,9 +100,6 @@
 - **About Us:**  
   Learn about the mission and benefits of using कृShe.
 
-- **Our Team:**  
-  Meet the team members behind the project.
-
 ---
 
 ## Data 📊
@@ -133,9 +130,3 @@ Feel free to fork the repository and make contributions. Pull requests are welco
 This project is licensed.
 
 ---
-
-## Contact 📬
-
-For any queries, reach out via [GitHub Issues](https://github.com/jyoti-131/krishe/issues).
-
-```
