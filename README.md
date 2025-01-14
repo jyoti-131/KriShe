@@ -35,9 +35,6 @@
 ├── standscaler.pkl
 ├── static/
 │   ├── img.jpg
-│   ├── member1.jpg
-│   ├── member2.jpg
-│   ├── member3.jpg
 │   ├── new.jpg
 ├── templates/
 │   ├── about.html
