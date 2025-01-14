@@ -46,6 +46,8 @@
 │   ├── login.html
 │   ├── register.html
 │   ├── team.html
+│   ├── chatbot.html
+
 ```
 
 ---
