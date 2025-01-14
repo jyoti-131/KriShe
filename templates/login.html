@@ -73,34 +73,45 @@
         }
         .extra-links a {
             color: #66a80f;
+            text-decoration: none;
+            margin-left: 15px;
         }
-        .social-login {
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+        .remember-me {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-bottom: 15px;
         }
-        .social-login button {
-            width: 48%;
-            border: none;
-            padding: 10px;
-            font-size: 14px;
-            cursor: pointer;
+        .remember-me input[type="checkbox"] {
+            margin-right: 5px;
         }
-        .facebook-btn {
-            background-color: #3b5998;
-            color: white;
+        .alert {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            padding: 15px;
         }
-        .google-btn {
-            background-color: #DB4437;
-            color: white;
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
         }
     </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/"><i class="fas fa-seedling"></i>कृShe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/"><i class="fas fa-seedling"></i> कृShe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -125,22 +136,237 @@
     </nav>
 
     <div class="login-container">
-      <h2>Login to कृShe</h2>
-      <form method="POST" action="{{ url_for('login') }}">
-        <input type="text" class="form-control" placeholder="Username or Email" name="username" required>
-        <input type="password" class="form-control" placeholder="Password" name="password" required>
-        <button type="submit" class="btn-custom">SIGN IN</button>
-        <div class="extra-links">
-          <input type="checkbox" name="remember"> Remember Me 
-          <a href="#">Forgot Password?</a>
-        </div>
-       
-        <div class="extra-links" style="margin-top: 20px;">
-          <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
-        </div>
-      </form>
+        <h2>Login to कृShe</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('login') }}">
+            <input type="text" class="form-control" placeholder="Username or Email" name="username" required>
+            <input type="password" class="form-control" placeholder="Password" name="password" required>
+            
+            
+            
+            <button type="submit" class="btn-custom">SIGN IN</button>
+            
+            <div class="extra-links" style="margin-top: 20px;">
+                <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+            </div>
+        </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="chat-toggle">💬</div>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <span>Krishe Assistant</span>
+        <span class="close-chat">×</span>
+    </div>
+    <div class="chat-messages"></div>
+    <div class="chat-input">
+        <input type="text" placeholder="Type your message...">
+        <button>Send</button>
+    </div>
+</div>
+
+<style>
+    .chat-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 350px;
+        height: 500px;
+        background: #f9f9f9; /* Softer background for a modern look */
+        border-radius: 20px; /* More rounded corners for a friendly feel */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow for a stylish effect */
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #66a80f, #98c930); /* Gradient for a dynamic look */
+        color: white;
+        padding: 15px;
+        border-radius: 20px 20px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Arial', sans-serif;
+        font-size: 1.2em;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: #ffffff; /* Clean background for messages */
+        font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+        font-size: 1em;
+    }
+
+    .message {
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 15px;
+        max-width: 75%;
+        font-size: 0.95em;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+
+    .bot-message {
+        background: #eef5e9; /* Subtle green for bot messages */
+        color: #333;
+        margin-right: auto;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-message {
+        background: #66a80f; /* Matching theme color */
+        color: white;
+        margin-left: auto;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-input {
+        padding: 15px;
+        border-top: 1px solid #ddd;
+        display: flex;
+        background: #f0f0f0; /* Light background for input area */
+        border-radius: 0 0 20px 20px;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-right: 10px;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 1em;
+    }
+
+    .chat-input input:focus {
+        outline: none;
+        border-color: #66a80f; /* Matching focus color */
+        box-shadow: 0 0 5px rgba(102, 168, 15, 0.5);
+    }
+
+    .chat-input button {
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #66a80f, #98c930); /* Matching gradient */
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1em;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s;
+    }
+
+    .chat-input button:hover {
+        background: #5b950e; /* Darker green on hover */
+    }
+
+    .chat-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #66a80f, #98c930);
+        color: white;
+        padding: 18px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 999;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .chat-toggle:hover {
+        transform: scale(1.1);
+    }
+
+    .close-chat {
+        cursor: pointer;
+        font-size: 1.2em;
+        transition: color 0.3s;
+    }
+
+    .close-chat:hover {
+        color: #ddd;
+    }
+</style>
+
+
+<script>
+    document.querySelector('.chat-toggle').addEventListener('click', () => {
+        document.querySelector('.chat-container').style.display = 'flex';
+        document.querySelector('.chat-toggle').style.display = 'none';
+    });
+
+    document.querySelector('.close-chat').addEventListener('click', () => {
+        document.querySelector('.chat-container').style.display = 'none';
+        document.querySelector('.chat-toggle').style.display = 'block';
+    });
+
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+        messageDiv.textContent = message;
+        document.querySelector('.chat-messages').appendChild(messageDiv);
+        document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight;
+    }
+
+    async function sendMessage(message) {
+        try {
+            const response = await fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error('Error:', error);
+            return 'Sorry, I encountered an error. Please try again.';
+        }
+    }
+
+    document.querySelector('.chat-input button').addEventListener('click', async () => {
+        const input = document.querySelector('.chat-input input');
+        const message = input.value.trim();
+        
+        if (message) {
+            addMessage(message, true);
+            input.value = '';
+            
+            const response = await sendMessage(message);
+            addMessage(response);
+        }
+    });
+
+    document.querySelector('.chat-input input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            document.querySelector('.chat-input button').click();
+        }
+    });
+
+    // Initial greeting
+    setTimeout(() => {
+        addMessage('👋 Hello! Welcome to Krishe. How can I help you today?');
+    }, 1000);
+</script>
   </body>
 </html>
