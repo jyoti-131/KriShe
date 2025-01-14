@@ -121,7 +121,7 @@
     </nav>
 
     <div class="container">
-      <h1 class="text-center mb-4 section-title">About Krishe:Crop Recommendation System</h1>
+      <h1 class="text-center mb-4 section-title">About कृShe:Crop Recommendation System</h1>
       
       <p class="lead text-center">
         Empowering farmers with data-driven decisions for optimal crop selection and sustainable agriculture.
@@ -131,15 +131,15 @@
       
       <h2 class="section-title"><i class="fas fa-bullseye"></i> Our Mission</h2>
       <p>
-        At Krishe, we're on a mission to revolutionize agriculture through cutting-edge machine learning technology. Our goal is to provide accurate, timely crop recommendations that optimize yields, promote sustainability, and support food security worldwide.
+        At कृShe, we're on a mission to revolutionize agriculture through cutting-edge machine learning technology. Our goal is to provide accurate, timely crop recommendations that optimize yields, promote sustainability, and support food security worldwide.
       </p>
       
-      <h2 class="section-title"><i class="fas fa-cogs"></i> How Krishe Works</h2>
+      <h2 class="section-title"><i class="fas fa-cogs"></i> How कृShe Works</h2>
       <p>
-        Krishe utilizes a sophisticated machine learning model trained on extensive agricultural data. By analyzing key environmental parameters such as soil composition, climate conditions, and historical data, our algorithm predicts the most suitable crop for your specific conditions.
+        कृShe utilizes a sophisticated machine learning model trained on extensive agricultural data. By analyzing key environmental parameters such as soil composition, climate conditions, and historical data, our algorithm predicts the most suitable crop for your specific conditions.
       </p>
       
-      <h2 class="section-title"><i class="fas fa-leaf"></i> Benefits of Choosing Krishe</h2>
+      <h2 class="section-title"><i class="fas fa-leaf"></i> Benefits of Choosing कृShe</h2>
       <div class="row">
         <div class="col-md-6">
           <div class="benefit-item">
@@ -166,14 +166,219 @@
       </div>
       
       <p class="mt-4">
-        We are committed to continuous improvement, regularly updating our model with the latest agricultural research and data. Krishe aims to be an indispensable tool in the global effort to ensure food security and promote sustainable farming practices.
+        We are committed to continuous improvement, regularly updating our model with the latest agricultural research and data. कृShe aims to be an indispensable tool in the global effort to ensure food security and promote sustainable farming practices.
       </p>
       
       <div class="text-center mt-5">
-        <a href="{{ url_for('predict_form') }}" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Try Krishe Now</a>
+        <a href="{{ url_for('predict_form') }}" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Try कृShe Now</a>
       </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="chat-toggle">💬</div>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <span>Krishe Assistant</span>
+        <span class="close-chat">×</span>
+    </div>
+    <div class="chat-messages"></div>
+    <div class="chat-input">
+        <input type="text" placeholder="Type your message...">
+        <button>Send</button>
+    </div>
+</div>
+
+<style>
+  .chat-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background: #f9f9f9; /* Softer background for a modern look */
+      border-radius: 20px; /* More rounded corners for a friendly feel */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow for a stylish effect */
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+  }
+
+  .chat-header {
+      background: linear-gradient(135deg, #66a80f, #98c930); /* Gradient for a dynamic look */
+      color: white;
+      padding: 15px;
+      border-radius: 20px 20px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      font-size: 1.2em;
+  }
+
+  .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #ffffff; /* Clean background for messages */
+      font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+      font-size: 1em;
+  }
+
+  .message {
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 15px;
+      max-width: 75%;
+      font-size: 0.95em;
+      line-height: 1.4;
+      word-wrap: break-word;
+  }
+
+  .bot-message {
+      background: #eef5e9; /* Subtle green for bot messages */
+      color: #333;
+      margin-right: auto;
+      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .user-message {
+      background: #66a80f; /* Matching theme color */
+      color: white;
+      margin-left: auto;
+      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .chat-input {
+      padding: 15px;
+      border-top: 1px solid #ddd;
+      display: flex;
+      background: #f0f0f0; /* Light background for input area */
+      border-radius: 0 0 20px 20px;
+  }
+
+  .chat-input input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-right: 10px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1em;
+  }
+
+  .chat-input input:focus {
+      outline: none;
+      border-color: #66a80f; /* Matching focus color */
+      box-shadow: 0 0 5px rgba(102, 168, 15, 0.5);
+  }
+
+  .chat-input button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #66a80f, #98c930); /* Matching gradient */
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s;
+  }
+
+  .chat-input button:hover {
+      background: #5b950e; /* Darker green on hover */
+  }
+
+  .chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #66a80f, #98c930);
+      color: white;
+      padding: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+  }
+
+  .chat-toggle:hover {
+      transform: scale(1.1);
+  }
+
+  .close-chat {
+      cursor: pointer;
+      font-size: 1.2em;
+      transition: color 0.3s;
+  }
+
+  .close-chat:hover {
+      color: #ddd;
+  }
+</style>
+
+
+<script>
+    document.querySelector('.chat-toggle').addEventListener('click', () => {
+        document.querySelector('.chat-container').style.display = 'flex';
+        document.querySelector('.chat-toggle').style.display = 'none';
+    });
+
+    document.querySelector('.close-chat').addEventListener('click', () => {
+        document.querySelector('.chat-container').style.display = 'none';
+        document.querySelector('.chat-toggle').style.display = 'block';
+    });
+
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+        messageDiv.textContent = message;
+        document.querySelector('.chat-messages').appendChild(messageDiv);
+        document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight;
+    }
+
+    async function sendMessage(message) {
+        try {
+            const response = await fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error('Error:', error);
+            return 'Sorry, I encountered an error. Please try again.';
+        }
+    }
+
+    document.querySelector('.chat-input button').addEventListener('click', async () => {
+        const input = document.querySelector('.chat-input input');
+        const message = input.value.trim();
+        
+        if (message) {
+            addMessage(message, true);
+            input.value = '';
+            
+            const response = await sendMessage(message);
+            addMessage(response);
+        }
+    });
+
+    document.querySelector('.chat-input input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            document.querySelector('.chat-input button').click();
+        }
+    });
+
+    // Initial greeting
+    setTimeout(() => {
+        addMessage('👋 Hello! Welcome to Krishe. How can I help you today?');
+    }, 1000);
+</script>
   </body>
 </html>
