@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore", category=UserWarning, message="Trying to unpic
 
 # Flask app setup
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'b9037ea75a797da0b4cfd404d6653a5b'
+app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.permanent_session_lifetime = timedelta(days=31)  # For remember me functionality
