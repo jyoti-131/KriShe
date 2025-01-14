@@ -36,6 +36,7 @@
 ├── static/
 │   ├── img.jpg
 │   ├── new.jpg
+│   ├── about1.jpg
 ├── templates/
 │   ├── about.html
 │   ├── home.html
