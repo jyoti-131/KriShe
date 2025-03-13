@@ -1,3 +1,5 @@
+import requests
+from flask import request, jsonify
 from flask import Flask, request, render_template, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +12,8 @@ import os
 import warnings
 from datetime import timedelta
 from flask import Flask, request, jsonify
+import joblib
+from sklearn.metrics import accuracy_score
 
 # Suppress specific warnings
 warnings.filterwarnings("ignore", category=UserWarning, message="Trying to unpickle estimator StandardScaler")
@@ -20,6 +24,8 @@ app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.permanent_session_lifetime = timedelta(days=31)  # For remember me functionality
+
+
 
 # Initialize SQLAlchemy with app
 db = SQLAlchemy(app)
@@ -53,7 +59,7 @@ def init_db():
         db.drop_all()
         # Create all tables
         db.create_all()
-        print("Database initialized successfully!")
+        print("✅ Database initialized successfully!")
 
 # Initialize database tables
 init_db()
@@ -64,7 +70,7 @@ def load_or_create_models():
         model = pickle.load(open('model.pkl', 'rb'))
         sc = pickle.load(open('standscaler.pkl', 'rb'))
         ms = pickle.load(open('minmaxscaler.pkl', 'rb'))
-        print("Models loaded successfully!")
+        print("✅ Models loaded successfully!")
         return model, sc, ms
     except Exception as e:
         print(f"Error loading model or scalers: {e}")
@@ -87,14 +93,182 @@ def load_or_create_models():
             pickle.dump(model, open('model.pkl', 'wb'))
             pickle.dump(sc, open('standscaler.pkl', 'wb'))
             pickle.dump(ms, open('minmaxscaler.pkl', 'wb'))
-            print("Models created and saved successfully!")
+            print("✅Models created and saved successfully!")
             return model, sc, ms
         except Exception as e:
             print(f"Error creating models: {e}")
             return None, None, None
+        
+# Load the Fertilizer Recommendation Model
+def load_fertilizer_model():
+    try:
+        model = joblib.load("fertilizer_model.pkl")
+        print("✅ Fertilizer Model loaded successfully!")
+        return model
+    except Exception as e:
+        print(f"❌ Error loading fertilizer model: {e}")
+        return None
+    
+
+# Custom Offline Translation API
+translations = {
+    "hi": {
+        "title": "कृShe - फसल अनुशंसा प्रणाली",
+        "subtitle": "डेटा-चालित फसल सिफारिशों के साथ किसानों को सशक्त बनाना",
+        "about_us": "हमारे बारे में",
+        "contact": "संपर्क करें",
+        "predict": "फसल की भविष्यवाणी करें",
+        "get_started": "शुरू करें",
+        "chat_header": "कृShe सहायक",
+        "chat_placeholder": "अपना संदेश टाइप करें...",
+        "chat_send": "भेजें",
+        "login": "लॉगिन",
+        "logout": "लॉगआउट",
+        "register": "रजिस्टर करें",
+        "language": "भाषा",
+        "email": "ईमेल",
+        "password": "पासवर्ड",
+        "confirm_password": "पासवर्ड की पुष्टि करें",
+        "mobile": "मोबाइल नंबर",
+        "fullname": "पूरा नाम",
+        "submit": "जमा करें",
+        "welcome": "स्वागत है",
+        "already_registered": "पहले से ही पंजीकृत?",
+        "not_registered": "अभी तक पंजीकरण नहीं हुआ?",
+        "forgot_password": "पासवर्ड भूल गए?",
+        "reset_password": "पासवर्ड रीसेट करें",
+        "crop_recommendation": "फसल अनुशंसा प्रणाली",
+        "nitrogen": "नाइट्रोजन",
+        "phosphorus": "फास्फोरस",
+        "potassium": "पोटेशियम",
+        "temperature": "तापमान (°C)",
+        "humidity": "नमी (%)",
+        "ph": "पीएच",
+        "moisture": "नमी स्तर (%)",
+        "rainfall": "वर्षा (मिमी)",
+        "about_title": "हमारे बारे में - कृShe",
+        "get_recommendation": "अनुशंसा प्राप्त करें",
+        "about_description": "इष्टतम फसल चयन और स्थायी कृषि के लिए डेटा-संचालित निर्णयों के साथ किसानों को सशक्त बनाना।",
+        "our_mission": "हमारा मिशन",
+        "mission_text": "कृShe में, हम अत्याधुनिक मशीन लर्निंग तकनीक के माध्यम से कृषि में क्रांति लाने के मिशन पर हैं। हमारा लक्ष्य समय पर फसल अनुशंसा प्रदान करना है।",
+        "how_it_works": "कृShe कैसे काम करता है",
+        "how_it_works_text": "कृShe एक परिष्कृत मशीन लर्निंग मॉडल का उपयोग करता है जो व्यापक कृषि डेटा पर प्रशिक्षित है।",
+        "benefits": "कृShe चुनने के लाभ",
+        "benefit_1": "फसल उत्पादन में वृद्धि",
+        "benefit_2": "संसाधनों का सर्वोत्तम उपयोग",
+        "benefit_3": "सतत कृषि का समर्थन",
+        "benefit_4": "पर्यावरणीय प्रभाव में कमी",
+        "benefit_5": "लागत प्रभावी कृषि पद्धतियाँ",
+        "benefit_6": "नवीनतम अनुसंधान के साथ नियमित अपडेट",
+        "commitment": "हम नवीनतम कृषि अनुसंधान और डेटा के साथ अपने मॉडल को नियमित रूप से अपडेट करने के लिए प्रतिबद्ध हैं।",
+        "try_now": "अब कृShe आज़माएँ",
+        "register_title": "कृShe के लिए पंजीकरण करें",
+        "fullname": "पूरा नाम",
+        "email": "ईमेल",
+        "fertilizer_recommendation": "उर्वरक सिफारिश",
+        "mobile": "मोबाइल नंबर",
+        "password": "पासवर्ड",
+        "confirm_password": "पासवर्ड की पुष्टि करें",
+        "register_button": "खाता बनाएं",
+        "already_registered": "पहले से खाता है?",
+        "login": "लॉगिन",
+         "temperature_placeholder": "तापमान दर्ज करें (°C)",
+        "humidity_placeholder": "नमी दर्ज करें (%)",
+        "ph_placeholder": "pH दर्ज करें",
+        "rainfall_placeholder": "वर्षा दर्ज करें (मिमी)",
+         "nitrogen_placeholder": "नाइट्रोजन दर्ज करें",
+        "phosphorus_placeholder": "फॉस्फोरस दर्ज करें",
+        "potassium_placeholder": "पोटैशियम दर्ज करें",
+        "title_fert": "उर्वरक सिफारिश - कृShe"
+
+
+    },
+
+    "en": {
+        "title": "कृShe - Crop Recommendation System",
+        "subtitle": "Empowering farmers with data-driven crop recommendations",
+        "about_us": "About Us",
+        "contact": "Contact",
+        "predict": "Predict Crop",
+        "get_started": "Get Started",
+        "chat_header": "Assistant",
+        "chat_placeholder": "Type your message...",
+        "chat_send": "Send",
+        "login": "Login",
+        "logout": "Logout",
+        "register": "Register",
+        "language": "Language",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "mobile": "Mobile Number",
+        "fullname": "Full Name",
+        "submit": "Submit",
+         "fertilizer_recommendation": "Fertilizer Recommendation",
+        "welcome": "Welcome",
+        "already_registered": "Already Registered?",
+        "not_registered": "Not Registered Yet?",
+        "forgot_password": "Forgot Password?",
+        "reset_password": "Reset Password",
+        "crop_recommendation": "Crop Recommendation System",
+        "nitrogen": "Nitrogen",
+        "phosphorus": "Phosphorus",
+        "moisture": "Moisture Level (%)",
+        "potassium": "Potassium",
+        "temperature": "Temperature (°C)",
+        "humidity": "Humidity (%)",
+        "ph": "pH",
+        "rainfall": "Rainfall (mm)",
+        "about_title": "About Us - कृShe",
+         "about_description": "Empowering farmers with data-driven decisions for optimal crop selection and sustainable agriculture.",
+        "get_recommendation": "Get Recommendation",
+        "our_mission": "Our Mission",
+        "mission_text": "At कृShe, we're on a mission to revolutionize agriculture through cutting-edge machine learning technology.",
+        "how_it_works": "How कृShe Works",
+        "how_it_works_text": "कृShe utilizes a sophisticated machine learning model trained on extensive agricultural data.",
+        "benefits": "Benefits of Choosing कृShe",
+        "benefit_1": "Increased crop yields",
+        "benefit_2": "Optimal use of resources",
+        "benefit_3": "Support for sustainable agriculture",
+        "benefit_4": "Reduced environmental impact",
+        "fertilizer_recommendation": "Fertilizer Recommendation",
+        "benefit_5": "Cost-effective farming practices",
+        "benefit_6": "Regular updates with latest research",
+        "commitment": "We are committed to continuous improvement, updating our model with the latest agricultural research and data.",
+        "try_now": "Try कृShe Now",
+        "register_title": "Register for कृShe",
+        "fullname": "Full Name",
+        "email": "Email",
+        "mobile": "Mobile Number",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "register_button": "CREATE ACCOUNT",
+        "already_registered": "Already have an account?",
+        "login": "Login",
+        "temperature_placeholder": "Enter Temperature (°C)",
+        "humidity_placeholder": "Enter Humidity (%)",
+        "ph_placeholder": "Enter pH",
+        "rainfall_placeholder": "Enter Rainfall (mm)",
+        "nitrogen_placeholder": "Enter Nitrogen ",
+        "phosphorus_placeholder": "Enter Phosphorus",
+        "potassium_placeholder": "Enter Potassium",
+        "title_fert": "Fertilizer Recommendation - कृShe"
+
+    }
+}
+
+@app.route("/translate_page", methods=["POST"])
+def translate_page():
+    data = request.json
+    lang = data.get("lang", "en")  # Default to English
+    return jsonify(translations.get(lang, translations["en"]))  # Return translated text
+
 
 # Load the models
 model, sc, ms = load_or_create_models()
+# Load the model at startup
+fertilizer_model = load_fertilizer_model()
+
 
 # Login required decorator
 def login_required(f):
@@ -106,10 +280,38 @@ def login_required(f):
     wrapped_function.__name__ = f.__name__
     return wrapped_function
 
+# Protecting the Fertilizer Form Route
+@app.route('/fertilizer_form')
+@login_required
+def fertilizer_form():
+    return render_template('fertilizer_form.html')
+
+@app.route('/get_fertilizer_recommendation', methods=['POST'])
+def get_fertilizer_recommendation():
+    try:
+        data = request.json  # Get JSON data from frontend
+        
+        # Convert input to DataFrame with correct feature names
+        features = pd.DataFrame([[
+            data["Nitrogen"], data["Phosphorus"], data["Potassium"], data["pH"], data["Moisture"]
+        ]], columns=["Nitrogen", "Phosphorus", "Potassium", "pH", "Moisture"])
+        
+        prediction = fertilizer_model.predict(features)[0]  # Predict fertilizer type
+
+        # Fertilizer Mapping
+        fertilizer_mapping = {0: "Urea", 1: "DAP", 2: "MOP", 3: "NPK", 4: "Compost"}
+        recommended_fertilizer = fertilizer_mapping.get(prediction, "Unknown")
+
+        return jsonify({"fertilizer": recommended_fertilizer})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # Routes
 @app.route('/')
 def home():
     return render_template('home.html')
+
+
 
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
@@ -128,6 +330,9 @@ def chatbot():
     'how to register': 'To register on Krishe:\n1. Click "Sign Up" in the top right\n2. Fill in your details (name, email, password)\n3. Verify your email\n4. Complete your profile.\nFeel free to reach out if you face any issues!',
     'login': 'To login to Krishe:\n1. Click on the "Login" button in the top right\n2. Enter your registered email and password\n3. Click "Sign In"\nIf you need help, click "Forgot Password".',
     'register': 'To register on Krishe:\n1. Click "Sign Up" in the top right\n2. Fill in your details (name, email, password)\n3. Verify your email\n4. Complete your profile.\nFeel free to reach out if you face any issues!',
+    'get started': 'Register and then login on Krishe.',
+    'what to do': 'Register and login on Krishe. Then enter your soil parameters',
+    'how': 'Register and then login on Krishe.',
     
 
     # About Krishe
@@ -150,16 +355,21 @@ def chatbot():
     # Benefits of Krishe
     'benefits': 'With Krishe, you can:\n- Get accurate crop recommendations\n- Maximize your yield potential\n- Save costs on fertilizers\n- Adopt sustainable farming practices\n- Stay updated with seasonal trends.',
     'benefit': 'With Krishe, you can:\n- Get accurate crop recommendations\n- Maximize your yield potential\n- Save costs on fertilizers\n- Adopt sustainable farming practices\n- Stay updated with seasonal trends.',
+    'is it free': 'Yes, Krishe is completely free to use! Register now and start optimizing your farming decisions.',
+    'free': 'Yes, Krishe is completely free to use! Register now and start optimizing your farming decisions.',
 
-    # Soil Parameters
+    # Soil Parameters and environmental factors
     'soil parameters': 'The soil parameters Krishe analyzes include:\n- Nitrogen (N)\n- Phosphorus (P)\n- Potassium (K)\n- pH level\n- Organic matter content\nThese are crucial for determining crop suitability.',
     'soil': 'The soil parameters Krishe analyzes include:\n- Nitrogen (N)\n- Phosphorus (P)\n- Potassium (K)\n- pH level\n- Organic matter content\nThese are crucial for determining crop suitability.',
-
-
-    # Environmental Factors
     'environmental factors': 'Environmental factors considered by Krishe are:\n- Temperature\n- Rainfall patterns\n- Humidity levels\n- Seasonal trends\n- Regional weather forecasts.',
     'environment': 'Environmental factors considered by Krishe are:\n- Temperature\n- Rainfall patterns\n- Humidity levels\n- Seasonal trends\n- Regional weather forecasts.',
     'weather': 'Environmental factors considered by Krishe are:\n- Temperature\n- Rainfall patterns\n- Humidity levels\n- Seasonal trends\n- Regional weather forecasts.',
+    'minimum data for crop prediction': 'The soil parameters Krishe analyzes include:\n- Nitrogen (N)\n- Phosphorus (P)\n- Potassium (K)\n- pH level\n- Organic matter content\nThese are crucial for determining crop suitability. Environmental factors considered by Krishe are:\n- Temperature\n- Rainfall patterns\n- Humidity levels\n- Seasonal trends\n- Regional weather forecasts.',
+    'minimum data': 'The soil parameters Krishe analyzes include:\n- Nitrogen (N)\n- Phosphorus (P)\n- Potassium (K)\n- pH level\n- Organic matter content\nThese are crucial for determining crop suitability. Environmental factors considered by Krishe are:\n- Temperature\n- Rainfall patterns\n- Humidity levels\n- Seasonal trends\n- Regional weather forecasts.',
+    'approximate data': 'Yes, you can enter approximate values, but for the most accurate crop prediction, we recommend using results from a professional soil test. Approximate values may still yield reasonable recommendations, but precision improves prediction quality.',
+    'can i enter approximate values': 'Yes, you can enter approximate values, but for the most accurate crop prediction, we recommend using results from a professional soil test. Approximate values may still yield reasonable recommendations, but precision improves prediction quality.',
+    'input incorrect data': 'If incorrect data is entered, the prediction may not be accurate and could suggest unsuitable crops. We recommend double-checking your inputs before submission. If you realize a mistake after submission, you can re-enter the correct data and get a new prediction instantly.',
+    'incorrect data': 'If incorrect data is entered, the prediction may not be accurate and could suggest unsuitable crops. We recommend double-checking your inputs before submission. If you realize a mistake after submission, you can re-enter the correct data and get a new prediction instantly.',
 
 
     # Contact and Support
@@ -285,37 +495,70 @@ def predict_form():
 @login_required
 def predict():
     try:
+        # Get input values from the form
         N = float(request.form['Nitrogen'])
-        P = float(request.form['Phosporus'])
+        P = float(request.form['Phosphorus'])
         K = float(request.form['Potassium'])
         temp = float(request.form['Temperature'])
         humidity = float(request.form['Humidity'])
         ph = float(request.form['Ph'])
         rainfall = float(request.form['Rainfall'])
 
+        # Server-side validation for valid input ranges
+        if not (1 <= N <= 200):
+            flash('Nitrogen value must be between 1 and 200.', 'danger')
+            return redirect(url_for('predict_form'))
+        if not (1 <= P <= 200):
+            flash('Phosphorus value must be between 1 and 200.', 'danger')
+            return redirect(url_for('predict_form'))
+        if not (1 <= K <= 200):
+            flash('Potassium value must be between 1 and 200.', 'danger')
+            return redirect(url_for('predict_form'))
+        if not (5 <= temp <= 50):
+            flash('Temperature must be between 5°C and 50°C.', 'danger')
+            return redirect(url_for('predict_form'))
+        if not (1 <= humidity <= 100):
+            flash('Humidity must be between 1% and 100%.', 'danger')
+            return redirect(url_for('predict_form'))
+        if not (3 <= ph <= 10):
+            flash('pH value must be between 3 and 10.', 'danger')
+            return redirect(url_for('predict_form'))
+        if not (1 <= rainfall <= 500):
+            flash('Rainfall must be between 1mm and 500mm.', 'danger')
+            return redirect(url_for('predict_form'))
+
+        # Prepare features for prediction
         feature_list = [N, P, K, temp, humidity, ph, rainfall]
         single_pred = np.array(feature_list).reshape(1, -1)
 
+        # Check if the model and scaler are loaded
         if model is None or sc is None or ms is None:
             flash('Prediction service is currently unavailable.', 'danger')
             return redirect(url_for('predict_form'))
 
+        # Scale features and predict
         scaled_features = ms.transform(single_pred)
         final_features = sc.transform(scaled_features)
         prediction = model.predict(final_features)
 
-        crop_dict = {1: "Rice", 2: "Maize", 3: "Jute", 4: "Cotton", 5: "Coconut", 6: "Papaya", 7: "Orange",
-                     8: "Apple", 9: "Muskmelon", 10: "Watermelon", 11: "Grapes", 12: "Mango", 13: "Banana",
-                     14: "Pomegranate", 15: "Lentil", 16: "Blackgram", 17: "Mungbean", 18: "Mothbeans",
-                     19: "Pigeonpeas", 20: "Kidneybeans", 21: "Chickpea", 22: "Coffee"}
+        # Crop dictionary for decoding the prediction
+        crop_dict = {
+            1: "Rice", 2: "Maize", 3: "Jute", 4: "Cotton", 5: "Coconut", 
+            6: "Papaya", 7: "Orange", 8: "Apple", 9: "Muskmelon", 10: "Watermelon", 
+            11: "Grapes", 12: "Mango", 13: "Banana", 14: "Pomegranate", 
+            15: "Lentil", 16: "Blackgram", 17: "Mungbean", 18: "Mothbeans", 
+            19: "Pigeonpeas", 20: "Kidneybeans", 21: "Chickpea", 22: "Coffee"
+        }
 
+        # Prepare result
         if prediction[0] in crop_dict:
             crop = crop_dict[prediction[0]]
-            result = "{} is the best crop to be cultivated right there".format(crop)
+            result = f"{crop} is the best crop to be cultivated right there."
         else:
             result = "Sorry, we could not determine the best crop to be cultivated with the provided data."
-        
+
         return render_template('index.html', result=result)
+
     except Exception as e:
         flash('An error occurred during prediction. Please try again.', 'danger')
         print(f"Prediction error: {e}")
