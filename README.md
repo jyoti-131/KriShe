@@ -1,10 +1,10 @@
 # **🌾 कृShe** 🚜  
 
-🔍 **A smart web-based application that helps farmers select the best crops and fertilizers based on soil and environmental conditions.**  
+🔍 **An AI-powered web application designed to assist farmers in making informed decisions about crop selection, fertilizer use, and accessing government schemes based on real-time soil, environmental, and policy data.**  
 
 ---
 
-## **📂 Project Structure**
+## **📎 Project Structure**
 ```
 ├── instance/
 │   ├── users.db                      # Database for user authentication
@@ -23,6 +23,7 @@
 │   ├── index.html
 │   ├── login.html
 │   ├── register.html
+│   ├── farmer_schemes.html            # Page displaying government farming schemes
 ├── Crop_recommendation.csv            # Dataset for crop recommendation
 ├── README.md                          # Documentation (You're reading this!)
 ├── app.py                              # Main Flask application
@@ -41,6 +42,7 @@
 ✅ **🌍 Bilingual Support** – Available in both Hindi & English for accessibility.  
 ✅ **💬 AI Chatbot** – Integrated chatbot for answering farming-related queries.  
 ✅ **🔒 User Authentication** – Secure login and registration system.  
+✅ **🌐 Government Schemes** – Displays farming-related government schemes for farmers.  
 
 ---
 
@@ -67,13 +69,14 @@ python app.py
 
 ## **📌 How It Works**
 1️⃣ **User Logs In/Register** 🔑  
-2️⃣ **Selects Crop Recommendation or Fertilizer Suggestion** 🌾  
-3️⃣ **Provides Soil & Climate Inputs** 🌍  
+2️⃣ **Selects Crop Recommendation, Fertilizer Suggestion, or Government Schemes** 🌾  
+3️⃣ **Provides Soil & Climate Inputs (for crop/fertilizer suggestions)** 🌍  
 4️⃣ **Gets AI-Based Recommendations** 🤖  
 5️⃣ **Chatbot Assistance for Queries** 💬  
+6️⃣ **Accesses Government Farming Schemes for Additional Benefits** 🌐  
 
 ---
 
-## **📞 Contact  
+## **📞 Contact**  
 📩 For queries, feel free to contact.
 
