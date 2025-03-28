@@ -108,7 +108,9 @@ def load_fertilizer_model():
     except Exception as e:
         print(f"❌ Error loading fertilizer model: {e}")
         return None
-    
+
+
+
 
 # Custom Offline Translation API
 translations = {
@@ -137,6 +139,7 @@ translations = {
         "not_registered": "अभी तक पंजीकरण नहीं हुआ?",
         "forgot_password": "पासवर्ड भूल गए?",
         "reset_password": "पासवर्ड रीसेट करें",
+        "fertilizer_title": "उर्वरक सिफारिश",
         "crop_recommendation": "फसल अनुशंसा प्रणाली",
         "nitrogen": "नाइट्रोजन",
         "phosphorus": "फास्फोरस",
@@ -164,6 +167,7 @@ translations = {
         "try_now": "अब कृShe आज़माएँ",
         "register_title": "कृShe के लिए पंजीकरण करें",
         "fullname": "पूरा नाम",
+         "schemes_title": "किसान योजनाएं और संसाधन <i class='fas fa-tractor'></i>",
         "email": "ईमेल",
         "fertilizer_recommendation": "उर्वरक सिफारिश",
         "mobile": "मोबाइल नंबर",
@@ -172,14 +176,18 @@ translations = {
         "register_button": "खाता बनाएं",
         "already_registered": "पहले से खाता है?",
         "login": "लॉगिन",
-         "temperature_placeholder": "तापमान दर्ज करें (°C)",
+         "title_schemes": "कृShe - किसान योजनाएं",
+        "temperature_placeholder": "तापमान दर्ज करें (°C)",
         "humidity_placeholder": "नमी दर्ज करें (%)",
         "ph_placeholder": "pH दर्ज करें",
         "rainfall_placeholder": "वर्षा दर्ज करें (मिमी)",
          "nitrogen_placeholder": "नाइट्रोजन दर्ज करें",
         "phosphorus_placeholder": "फॉस्फोरस दर्ज करें",
         "potassium_placeholder": "पोटैशियम दर्ज करें",
-        "title_fert": "उर्वरक सिफारिश - कृShe"
+        "title_fert": "उर्वरक सिफारिश - कृShe",
+        "farmer_schemes": "किसान योजनाएँ",
+        "search_schemes": "योजनाओं में खोजें...",
+        "search_schemes_aria": "योजनाएं खोजें"
 
 
     },
@@ -200,12 +208,15 @@ translations = {
         "language": "Language",
         "email": "Email",
         "password": "Password",
+        "title_schemes": "कृShe - Farmer Schemes",
         "confirm_password": "Confirm Password",
         "mobile": "Mobile Number",
         "fullname": "Full Name",
         "submit": "Submit",
+         "schemes_title": "Farmer Schemes and Resources <i class='fas fa-tractor'></i>",
          "fertilizer_recommendation": "Fertilizer Recommendation",
         "welcome": "Welcome",
+        "fertilizer_title": "Fertilizer Recommendation",
         "already_registered": "Already Registered?",
         "not_registered": "Not Registered Yet?",
         "forgot_password": "Forgot Password?",
@@ -252,7 +263,10 @@ translations = {
         "nitrogen_placeholder": "Enter Nitrogen ",
         "phosphorus_placeholder": "Enter Phosphorus",
         "potassium_placeholder": "Enter Potassium",
-        "title_fert": "Fertilizer Recommendation - कृShe"
+        "title_fert": "Fertilizer Recommendation - कृShe",
+         "farmer_schemes": "Farmer Schemes",
+         "search_schemes": "Search for schemes...",
+        "search_schemes_aria": "Search schemes"
 
     }
 }
@@ -311,7 +325,12 @@ def get_fertilizer_recommendation():
 def home():
     return render_template('home.html')
 
-
+@app.route('/farmer_schemes')
+def farmer_schemes():
+    """
+    Route to render the farmer schemes page
+    """
+    return render_template('farmer_schemes.html')
 
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
@@ -567,6 +586,7 @@ def predict():
 @app.route('/about')
 def about():
     return render_template('about.html')
+    
 
 @app.route('/view_users')
 def view_users():
