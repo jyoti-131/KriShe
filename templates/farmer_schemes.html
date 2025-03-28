@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>कृShe - Farmer Schemes</title>
+    <title data-translate="title_schemes">कृShe - Farmer Schemes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -67,48 +67,119 @@
         }
         
         .scheme-card {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            color: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            margin-bottom: 20px;
-        }
+    background: linear-gradient(135deg, #2c7a3b, #1e5d2a);
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    perspective: 1000px;
+}
+
+.scheme-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+    transform: skew(-10deg);
+    z-index: 1;
+}
+
+.scheme-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.scheme-card .card-title {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #e6f3e0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.scheme-card .card-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.scheme-card .badge {
+    background-color: rgba(255,255,255,0.2) !important;
+    color: white !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.scheme-card .btn-light {
+    background-color: #f0f4f0;
+    color: #2c7a3b;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.scheme-card .btn-light:hover {
+    background-color: #e0ece0;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
         
-        .scheme-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .scheme-card .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            border-radius: 50px;
-            padding: 12px 30px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(102, 168, 15, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 168, 15, 0.4);
-        }
-        
-        .search-bar {
-            margin-bottom: 30px;
-        }
-        
+.search-bar {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.search-bar input {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(44, 122, 59, 0.2);
+    border-radius: 30px;
+    padding: 15px 50px 15px 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: #2c7a3b;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #2c7a3b;
+    box-shadow: 0 8px 25px rgba(44, 122, 59, 0.1);
+}
+
+.search-bar input::placeholder {
+    color: rgba(44, 122, 59, 0.6);
+    font-weight: 300;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2c7a3b;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.search-bar input:focus + .search-icon {
+    opacity: 1;
+}
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -327,11 +398,15 @@
     </nav>
 
     <div class="container animate">
-      <h1 class="text-center mb-4">Farmer Schemes and Resources <i class="fas fa-tractor"></i></h1>
+        <h1 class="text-center mb-4" data-translate="schemes_title">Farmer Schemes and Resources <i class="fas fa-tractor"></i></h1>
       
-      <div class="search-bar">
-        <input type="text" id="schemeSearch" class="form-control" placeholder="Search for schemes...">
-      </div>
+      <div class="search-bar position-relative">
+        <input type="text" id="schemeSearch" class="form-control" 
+       data-translate="search_schemes" 
+       placeholder="Search for schemes..." 
+       aria-label="Search schemes">
+        <i class="fas fa-search search-icon"></i>
+    </div>
       
       <div class="row" id="schemeContainer">
         <!-- Scheme cards will be dynamically added here -->
@@ -356,74 +431,116 @@
     <script>
         // Farmer Schemes Data
         const farmerSchemes = [
-            {
-                name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
-                description: "Direct income support of ₹6,000 per year to small and marginal farmers.",
-                link: "https://pmkisan.gov.in/",
-                category: "Income Support"
-            },
-            {
-                name: "Pradhan Mantri Fasal Bima Yojana",
-                description: "Crop insurance scheme providing comprehensive risk coverage for agricultural crops.",
-                link: "https://pmfby.gov.in/",
-                category: "Insurance"
-            },
-            {
-                name: "Soil Health Card Scheme",
-                description: "Provides soil health cards to farmers to help them know the nutrient status of their soil.",
-                link: "https://soilhealth.dac.gov.in/",
-                category: "Agriculture Support"
-            },
-            {
-                name: "Kisan Credit Card Scheme",
-                description: "Provides agricultural credit for farmers at subsidized rates.",
-                link: "https://www.nabard.org/",
-                category: "Financial Support"
-            },
-            {
-                name: "National Agriculture Market (e-NAM)",
-                description: "Online trading platform for agricultural produce to help farmers get better prices.",
-                link: "https://enam.gov.in/",
-                category: "Marketing"
-            }
-        ];
-
+    {
+        name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+        description: {
+            en: "Direct income support of ₹6,000 per year to small and marginal farmers.",
+            hi: "छोटे और सीमांत किसानों को प्रति वर्ष ₹6,000 की प्रत्यक्ष आय सहायता।"
+        },
+        link: "https://pmkisan.gov.in/",
+        category: {
+            en: "Income Support",
+            hi: "आय सहायता"
+        }
+    },
+    {
+        name: "Pradhan Mantri Fasal Bima Yojana",
+        description: {
+            en: "Crop insurance scheme providing comprehensive risk coverage for agricultural crops.",
+            hi: "कृषि फसलों के लिए व्यापक जोखिम कवरेज प्रदान करने वाली फसल बीमा योजना।"
+        },
+        link: "https://pmfby.gov.in/",
+        category: {
+            en: "Insurance",
+            hi: "बीमा"
+        }
+    },
+    {
+        name: "Soil Health Card Scheme",
+        description: {
+            en: "Provides soil health cards to farmers to help them know the nutrient status of their soil.",
+            hi: "किसानों को उनकी मिट्टी के पोषक तत्व की स्थिति जानने में मदद करने के लिए मिट्टी स्वास्थ्य कार्ड प्रदान करता है।"
+        },
+        link: "https://soilhealth.dac.gov.in/",
+        category: {
+            en: "Agriculture Support",
+            hi: "कृषि सहायता"
+        }
+    },
+    {
+        name: "Kisan Credit Card Scheme",
+        description: {
+            en: "Provides agricultural credit for farmers at subsidized rates.",
+            hi: "किसानों को रियायती दरों पर कृषि ऋण प्रदान करता है।"
+        },
+        link: "https://www.nabard.org/",
+        category: {
+            en: "Financial Support",
+            hi: "वित्तीय सहायता"
+        }
+    },
+    {
+        name: "National Agriculture Market (e-NAM)",
+        description: {
+            en: "Online trading platform for agricultural produce to help farmers get better prices.",
+            hi: "किसानों को बेहतर कीमतें दिलाने में मदद करने के लिए कृषि उत्पादों का ऑनलाइन ट्रेडिंग प्लेटफॉर्म।"
+        },
+        link: "https://enam.gov.in/",
+        category: {
+            en: "Marketing",
+            hi: "विपणन"
+        }
+    },
+    {
+        name: "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
+        description: {
+            en: "Aims to improve water use efficiency at farm levels and expand cultivable area under irrigation.",
+            hi: "फार्म स्तर पर जल उपयोग दक्षता में सुधार करने और सिंचाई के तहत खेती योग्य क्षेत्र का विस्तार करने का लक्ष्य।"
+        },
+        link: "https://pmksy.gov.in/",
+        category: {
+            en: "Infrastructure",
+            hi: "बुनियादी ढांचा"
+        }
+    }
+];
         // Function to create scheme cards
         function createSchemeCards(schemes) {
-            const container = document.getElementById('schemeContainer');
-            container.innerHTML = '';
-            
-            schemes.forEach(scheme => {
-                const card = document.createElement('div');
-                card.className = 'col-md-4 mb-4';
-                card.innerHTML = `
-                    <div class="card scheme-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">${scheme.name}</h5>
-                            <p class="card-text flex-grow-1">${scheme.description}</p>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="badge bg-light text-dark">${scheme.category}</span>
-                                <a href="${scheme.link}" target="_blank" class="btn btn-sm btn-light">
-                                    Visit Website <i class="fas fa-external-link-alt"></i>
-                                </a>
-                            </div>
-                        </div>
+    const container = document.getElementById('schemeContainer');
+    const selectedLang = localStorage.getItem("selectedLanguage") || "en";
+    container.innerHTML = '';
+    
+    schemes.forEach(scheme => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+            <div class="card scheme-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">${scheme.name}</h5>
+                    <p class="card-text flex-grow-1">${scheme.description[selectedLang]}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="badge bg-light text-dark">${scheme.category[selectedLang]}</span>
+                        <a href="${scheme.link}" target="_blank" class="btn btn-sm btn-light">
+                            Visit Website <i class="fas fa-external-link-alt"></i>
+                        </a>
                     </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
         // Search functionality
         document.getElementById('schemeSearch').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const filteredSchemes = farmerSchemes.filter(scheme => 
-                scheme.name.toLowerCase().includes(searchTerm) || 
-                scheme.description.toLowerCase().includes(searchTerm) ||
-                scheme.category.toLowerCase().includes(searchTerm)
-            );
-            createSchemeCards(filteredSchemes);
-        });
+    const searchTerm = this.value.toLowerCase();
+    const selectedLang = localStorage.getItem("selectedLanguage") || "en";
+    const filteredSchemes = farmerSchemes.filter(scheme => 
+        scheme.name.toLowerCase().includes(searchTerm) || 
+        scheme.description[selectedLang].toLowerCase().includes(searchTerm) ||
+        scheme.category[selectedLang].toLowerCase().includes(searchTerm)
+    );
+    createSchemeCards(filteredSchemes);
+});
 
         // Chat functionality
         document.querySelector('.chat-toggle').addEventListener('click', () => {
@@ -487,37 +604,37 @@
         }, 1000);
 
         // Language translation
-        document.querySelectorAll(".language-option").forEach(item => {
-            item.addEventListener("click", function() {
-                let selectedLang = this.getAttribute("data-lang");
-                localStorage.setItem("selectedLanguage", selectedLang);
-                location.reload();
-            });
-        });
+document.querySelectorAll(".language-option").forEach(item => {
+    item.addEventListener("click", function() {
+        let selectedLang = this.getAttribute("data-lang");
+        localStorage.setItem("selectedLanguage", selectedLang);
+        location.reload();
+    });
+});
 
-        async function applyTranslation() {
-            let selectedLang = localStorage.getItem("selectedLanguage") || "en";
-            let response = await fetch("/translate_page", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ lang: selectedLang })
-            });
-            let data = await response.json();
-            document.querySelectorAll("[data-translate]").forEach(element => {
-                let key = element.getAttribute("data-translate");
-                if (data[key]) {
-                    if (element.tagName === "INPUT") {
-                        element.setAttribute("placeholder", data[key]);
-                    } else {
-                        element.innerHTML = data[key];
-                    }
-                }
-            });
+async function applyTranslation() {
+    let selectedLang = localStorage.getItem("selectedLanguage") || "en";
+    let response = await fetch("/translate_page", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lang: selectedLang })
+    });
+    let data = await response.json();
+    document.querySelectorAll("[data-translate]").forEach(element => {
+        let key = element.getAttribute("data-translate");
+        if (data[key]) {
+            if (element.tagName === "INPUT") {
+                element.setAttribute("placeholder", data[key]);
+            } else {
+                element.innerHTML = data[key];
+            }
         }
-        applyTranslation();
+    });
 
-        // Initialize cards on page load
-        createSchemeCards(farmerSchemes);
+    // Ensure scheme cards are created with the selected language
+    createSchemeCards(farmerSchemes);
+}
+applyTranslation();
     </script>
   </body>
 </html>
