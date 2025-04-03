@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-translate="about_title">About Us - कृShe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+    --primary-color: #66a80f;
+    --primary-dark: #558b0b;
+    --primary-light: #84c123;
+    --secondary-color: #1e5f74;
+    --light-bg: #f8f9fa;
+    --dark-bg: #212529;
+    --text-dark: #333;
+    --text-light: #f8f9fa;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-dark);
+    background-image: url("{{ url_for('static', filename='new.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    line-height: 1.6;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Updated navbar styles to match login.html */
+.navbar {
+    background-color: rgba(33, 37, 41, 0.9) !important;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-family: 'Merriweather', serif;
+    font-size: 1.4rem;
+    color: white !important;
+    padding: 0.25rem 0;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 1rem;
+    margin: 0 5px;
+    padding: 0.5rem 0.75rem;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Content container with glass morphism */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: clamp(20px, 5vw, 50px); 
+    border-radius: 20px;
+    margin-top: min(120px, 15vh);
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1, h2 {
+    font-family: 'Merriweather', serif;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 5vw, 2.3rem);
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 4vw, 1.8rem);
+    margin-top: 2rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(102, 168, 15, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 168, 15, 0.4);
+}
+
+.about-image {
+    max-width: min(90%, 600px);
+    height: auto;
+    width: 100%;
+    border-radius: 16px;
+    margin: 40px auto;
+    display: block;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s ease-in-out;
+}
+
+.about-image:hover {
+    transform: scale(1.03);
+}
+
+.benefit-item {
+    transition: all 0.3s ease;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    background-color: rgba(26, 95, 122, 0.08);
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+}
+
+.benefit-item:hover {
+    background-color: rgba(26, 95, 122, 0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-item i {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    color: var(--primary-color);
+}
+
+.section-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.section-title i {
+    margin-right: 12px;
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.lead {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    line-height: 1.7;
+    font-weight: 300;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+/* Chat component */
+.chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 15px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: transparent;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 0.95em;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background: #eef5e9;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin-right: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95em;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(102, 168, 15, 0.2);
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(102, 168, 15, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 168, 15, 0.3);
+        }
+
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(102, 168, 15, 0.3);
+        }
+
+        .close-chat {
+            cursor: pointer;
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+        }
+
+        .close-chat:hover {
+            color: #ddd;
+        }
+/* Animation for content */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        padding-top: 0.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+        margin-top: 100px;
+    }
+    
+    .about-image {
+        max-width: 100%;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    .chat-container {
+        width: 90%;
+        right: 5%;
+        bottom: 80px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .container {
+        padding: 25px;
+        margin-top: 90px;
+    }
+    
+    .chat-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+}
+
+/* Fix for iPhone notch */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .chat-container,
+    .chat-toggle {
+        right: max(20px, env(safe-area-inset-right));
+        bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    
+    body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+    </style>
+  </head>
+  <body>
+    <!-- Original navbar preserved exactly as it was -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><i class="fas fa-seedling"></i> कृShe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-translate="language">Language</a>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li><a class="dropdown-item language-option" href="#" data-lang="en">English</a></li>
+                            <li><a class="dropdown-item language-option" href="#" data-lang="hi">हिन्दी</a></li>
+                        </ul>
+                    </li>                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('predict_form') }}" data-translate="predict">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('about') }}" data-translate="about_us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('fertilizer_form') }}" data-translate="fertilizer_recommendation">Fertilizer Recommendation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('farmer_schemes') }}" data-translate="farmer_schemes">Farmer Schemes</a>
+                      </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}" data-translate="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}" data-translate="register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container animate">
+        <h1 class="text-center mb-4 section-title" data-translate="about_title">About कृShe: Crop Recommendation System</h1>
+      
+        <p class="lead text-center" data-translate="about_description">
+            Empowering farmers with data-driven decisions for optimal crop selection and sustainable agriculture.
+        </p>
+        
+        <img src="{{ url_for('static', filename='about1.jpg') }}" alt="Crop Recommendation System" class="about-image">
+      
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-translate="our_mission"><i class="fas fa-bullseye"></i> Our Mission</h2>
+                <p class="mb-4" data-translate="mission_text">
+                    At कृShe, we're on a mission to revolutionize agriculture through cutting-edge machine learning technology. 
+                    Our goal is to provide accurate, timely crop recommendations that optimize yields, promote sustainability, and 
+                    support food security worldwide.
+                </p>
+            </div>
+        </div>
+      
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-translate="how_it_works"><i class="fas fa-cogs"></i> How कृShe Works</h2>
+                <p class="mb-4" data-translate="how_it_works_text">
+                    कृShe utilizes a sophisticated machine learning model trained on extensive agricultural data. 
+                    By analyzing key environmental parameters such as soil composition, climate conditions, and 
+                    historical data, our algorithm predicts the most suitable crop for your specific conditions.
+                </p>
+            </div>
+        </div>
+      
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-translate="benefits"><i class="fas fa-leaf"></i> Benefits of Choosing कृShe</h2>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="benefit-item" data-translate="benefit_1">
+                    <i class="fas fa-chart-line text-success"></i> Increased crop yields
+                </div>
+                <div class="benefit-item" data-translate="benefit_2">
+                    <i class="fas fa-balance-scale text-success"></i> Optimal use of resources
+                </div>
+                <div class="benefit-item" data-translate="benefit_3">
+                    <i class="fas fa-seedling text-success"></i> Support for sustainable agriculture
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="benefit-item" data-translate="benefit_4">
+                    <i class="fas fa-leaf text-success"></i> Reduced environmental impact
+                </div>
+                <div class="benefit-item" data-translate="benefit_5">
+                    <i class="fas fa-coins text-success"></i> Cost-effective farming practices
+                </div>
+                <div class="benefit-item" data-translate="benefit_6">
+                    <i class="fas fa-sync text-success"></i> Regular updates with latest research
+                </div>
+            </div>
+        </div>
+      
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <p class="mb-5" data-translate="commitment">
+                    We are committed to continuous improvement, regularly updating our model with the latest agricultural research and data. 
+                    कृShe aims to be an indispensable tool in the global effort to ensure food security and promote sustainable farming practices.
+                </p>
+            </div>
+        </div>
+      
+        <div class="text-center mt-5">
+            <a href="{{ url_for('predict_form') }}" class="btn btn-primary btn-lg" data-translate="try_now">
+                <i class="fas fa-rocket me-2"></i> Try कृShe Now
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="chat-toggle"><i class="fas fa-comments"></i></div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <span><i class="fas fa-robot me-2"></i>Assistant</span>
+            <span class="close-chat">×</span>
+        </div>
+        <div class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button>Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Add animation to elements when they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.benefit-item, h2, .lead, .about-image').forEach(item => {
+            observer.observe(item);
+        });
+        
+        // Chat functionality
+        document.querySelector('.chat-toggle').addEventListener('click', () => {
+            document.querySelector('.chat-container').style.display = 'flex';
+            document.querySelector('.chat-toggle').style.display = 'none';
+        });
+
+        document.querySelector('.close-chat').addEventListener('click', () => {
+            document.querySelector('.chat-container').style.display = 'none';
+            document.querySelector('.chat-toggle').style.display = 'flex';
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            document.querySelector('.chat-messages').appendChild(messageDiv);
+            document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight;
+        }
+
+        async function sendMessage(message) {
+            try {
+                const response = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                return data.response;
+            } catch (error) {
+                console.error('Error:', error);
+                return 'Sorry, I encountered an error. Please try again.';
+            }
+        }
+
+        document.querySelector('.chat-input button').addEventListener('click', async () => {
+            const input = document.querySelector('.chat-input input');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+                
+                const response = await sendMessage(message);
+                addMessage(response);
+            }
+        });
+
+        document.querySelector('.chat-input input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.querySelector('.chat-input button').click();
+            }
+        });
+
+        // Initial greeting
+        setTimeout(() => {
+            addMessage('👋 Hello! Welcome to Krishe. How can I help you today?');
+        }, 1000);
+        
+        // Language translation
+        document.querySelectorAll(".language-option").forEach(item => {
+            item.addEventListener("click", function() {
+                let selectedLang = this.getAttribute("data-lang");
+                localStorage.setItem("selectedLanguage", selectedLang);
+                location.reload();
+            });
+        });
+
+        async function applyTranslation() {
+            let selectedLang = localStorage.getItem("selectedLanguage") || "en";
+            let response = await fetch("/translate_page", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ lang: selectedLang })
+            });
+            let data = await response.json();
+            document.querySelectorAll("[data-translate]").forEach(element => {
+                let key = element.getAttribute("data-translate");
+                if (data[key]) {
+                    element.innerHTML = data[key];
+                }
+            });
+        }
+        applyTranslation();
+    </script>
+  </body>
+</html>
