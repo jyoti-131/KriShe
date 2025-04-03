@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-translate="title_fert">Fertilizer Recommendation - कृShe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #66a80f;
+            --primary-dark: #558b0b;
+            --primary-light: #84c123;
+            --secondary-color: #1e5f74;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --text-dark: #333;
+            --text-light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-dark);
+            background-image: url("{{ url_for('static', filename='new.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+        
+    /* Navbar styles */
+    .navbar {
+    background-color: rgba(33, 37, 41, 0.9) !important;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-family: 'Merriweather', serif;
+    font-size: 1.4rem;
+    color: white !important;
+    padding: 0.25rem 0;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 1rem;
+    margin: 0 5px;
+    padding: 0.5rem 0.75rem;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+        
+        .fertilizer-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 15vh;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            margin-bottom: 20px;
+            padding: 15px;
+            font-size: 14px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(102, 168, 15, 0.2);
+        }
+        
+        .btn-custom {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 12px 20px;
+            width: 100%;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 168, 15, 0.3);
+            margin-top: 10px;
+        }
+        
+        .btn-custom:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 168, 15, 0.4);
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #f5f9ee;
+            border-left: 4px solid var(--primary-color);
+            display: none;
+        }
+        
+        .result-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .result-text {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .input-range-value {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .range-min, .range-max {
+            position: absolute;
+            top: -15px;
+        }
+        
+        .range-min {
+            left: 0;
+        }
+        
+        .range-max {
+            right: 0;
+        }
+        
+        .current-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .form-range {
+            height: 8px;
+            border-radius: 5px;
+        }
+        
+        .form-range::-webkit-slider-thumb {
+            background: var(--primary-color);
+        }
+        
+        .form-range::-moz-range-thumb {
+            background: var(--primary-color);
+        }
+        
+        .form-range:hover + .current-value {
+            opacity: 1;
+        }
+        
+        .info-tooltip {
+            display: inline-block;
+            margin-left: 5px;
+            color: var(--primary-color);
+            cursor: help;
+        }
+        
+        /* Chat component */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 15px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: transparent;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 0.95em;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background: #eef5e9;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin-right: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95em;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(102, 168, 15, 0.2);
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(102, 168, 15, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 168, 15, 0.3);
+        }
+
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(102, 168, 15, 0.3);
+        }
+
+        .close-chat {
+            cursor: pointer;
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+        }
+
+        .close-chat:hover {
+            color: #ddd;
+        }
+        
+        
+        /* Animation for content */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        padding-top: 0.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0;
+    }
+    
+    .fertilizer-container {
+        margin-top: 12vh;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .fertilizer-container {
+        max-width: 90%;
+        padding: 1.5rem;
+        margin-top: 10vh;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .btn-custom {
+        padding: 0.625rem;
+    }
+    
+    .form-control {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+    
+    .chat-container {
+        width: 18rem;
+        height: 28rem;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .result-container {
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .result-title {
+        font-size: 16px;
+    }
+    
+    .result-text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .fertilizer-container {
+        padding: 1.25rem;
+        margin-top: 8vh;
+        max-width: 95%;
+    }
+    
+    .form-control {
+        padding: 0.625rem 0.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 13px;
+    }
+    
+    .form-label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    
+    .btn-custom {
+        padding: 10px 15px;
+        font-size: 15px;
+    }
+    
+    .chat-container {
+        width: calc(100% - 2rem);
+        right: 1rem;
+        height: 26rem;
+    }
+    
+    .chat-toggle {
+        width: 3rem;
+        height: 3rem;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .chat-header {
+        padding: 12px;
+    }
+    
+    .chat-messages {
+        padding: 15px;
+    }
+    
+    .message {
+        padding: 12px;
+        margin: 8px 0;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-height: 700px) {
+    .fertilizer-container {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .chat-container {
+        height: 24rem;
+    }
+    
+    h2 {
+        margin-bottom: 15px;
+    }
+    
+    .form-control {
+        margin-bottom: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .fertilizer-container {
+        padding: 1rem;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-custom {
+        font-size: 0.9rem;
+    }
+    
+    .form-label {
+        font-size: 13px;
+    }
+    
+    .result-container {
+        padding: 12px;
+    }
+    
+    .result-title {
+        font-size: 15px;
+    }
+    
+    .result-text {
+        font-size: 13px;
+    }
+}
+
+/* Fix for iPhone notch */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .chat-container,
+    .chat-toggle {
+        right: max(1.25rem, env(safe-area-inset-right));
+        bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
+    
+    body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    
+    .fertilizer-container {
+        padding-left: max(1.25rem, env(safe-area-inset-left));
+        padding-right: max(1.25rem, env(safe-area-inset-right));
+    }
+}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><i class="fas fa-seedling"></i> कृShe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-translate="language">Language</a>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li><a class="dropdown-item language-option" href="#" data-lang="en">English</a></li>
+                            <li><a class="dropdown-item language-option" href="#" data-lang="hi">हिन्दी</a></li>
+                        </ul>
+                    </li>    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('predict_form') }}" data-translate="predict">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}" data-translate="about_us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('fertilizer_form') }}" data-translate="fertilizer_recommendation">Fertilizer Recommendation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('farmer_schemes') }}" data-translate="farmer_schemes">Farmer Schemes</a>
+                      </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}" data-translate="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="fertilizer-container animate">
+        <h2 data-translate="fertilizer_title">Fertilizer Recommendation</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form id="fertilizerForm" onsubmit="event.preventDefault(); getFertilizerRecommendation();">
+            <div class="mb-3">
+                <label for="nitrogen" class="form-label">
+                    <span data-translate="nitrogen">Nitrogen (N)</span>
+                    <i class="fas fa-info-circle info-tooltip" title="Required nitrogen level in soil (0-140)"></i>
+                </label>
+                <div class="position-relative mb-4">
+                    <input type="range" class="form-range" id="nitrogen" min="0" max="140" step="1" value="50" oninput="updateRangeValue(this)">
+                    <div class="input-range-value">
+                        <span class="range-min">0</span>
+                        <span class="range-max">140</span>
+                    </div>
+                    <span class="current-value" id="nitrogen-value">50</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="phosphorus" class="form-label">
+                    <span data-translate="phosphorus">Phosphorus (P)</span>
+                    <i class="fas fa-info-circle info-tooltip" title="Required phosphorus level in soil (0-140)"></i>
+                </label>
+                <div class="position-relative mb-4">
+                    <input type="range" class="form-range" id="phosphorus" min="0" max="140" step="1" value="50" oninput="updateRangeValue(this)">
+                    <div class="input-range-value">
+                        <span class="range-min">0</span>
+                        <span class="range-max">140</span>
+                    </div>
+                    <span class="current-value" id="phosphorus-value">50</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="potassium" class="form-label">
+                    <span data-translate="potassium">Potassium (K)</span>
+                    <i class="fas fa-info-circle info-tooltip" title="Required potassium level in soil (0-140)"></i>
+                </label>
+                <div class="position-relative mb-4">
+                    <input type="range" class="form-range" id="potassium" min="0" max="140" step="1" value="50" oninput="updateRangeValue(this)">
+                    <div class="input-range-value">
+                        <span class="range-min">0</span>
+                        <span class="range-max">140</span>
+                    </div>
+                    <span class="current-value" id="potassium-value">50</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="ph" class="form-label">
+                    <span data-translate="ph">pH Level</span>
+                    <i class="fas fa-info-circle info-tooltip" title="pH level of your soil (0-14)"></i>
+                </label>
+                <div class="position-relative mb-4">
+                    <input type="range" class="form-range" id="ph" min="0" max="14" step="0.1" value="7" oninput="updateRangeValue(this)">
+                    <div class="input-range-value">
+                        <span class="range-min">0</span>
+                        <span class="range-max">14</span>
+                    </div>
+                    <span class="current-value" id="ph-value">7</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="moisture" class="form-label">
+                    <span data-translate="moisture">Moisture Level</span>
+                    <i class="fas fa-info-circle info-tooltip" title="Moisture level in soil (0-100)"></i>
+                </label>
+                <div class="position-relative mb-4">
+                    <input type="range" class="form-range" id="moisture" min="0" max="100" step="1" value="50" oninput="updateRangeValue(this)">
+                    <div class="input-range-value">
+                        <span class="range-min">0%</span>
+                        <span class="range-max">100%</span>
+                    </div>
+                    <span class="current-value" id="moisture-value">50%</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-custom" data-translate="get_recommendation">GET RECOMMENDATION</button>
+        </form>
+        
+        <div class="result-container" id="resultContainer">
+            <h3 class="result-title" data-translate="recommendation_result">Fertilizer Recommendation</h3>
+            <p class="result-text" id="result"></p>
+            <div id="additionalInfo" class="mt-3"></div>
+        </div>
+    </div>
+
+    <div class="chat-toggle"><i class="fas fa-comments"></i></div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <span><i class="fas fa-robot me-2"></i>Assistant</span>
+            <span class="close-chat">×</span>
+        </div>
+        <div class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button>Send</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateRangeValue(rangeInput) {
+            const valueDisplay = document.getElementById(`${rangeInput.id}-value`);
+            let value = rangeInput.value;
+            
+            // Add percentage sign for moisture
+            if (rangeInput.id === 'moisture') {
+                value = value + '%';
+            }
+            
+            valueDisplay.textContent = value;
+            valueDisplay.style.opacity = 1;
+            
+            // Position the value indicator
+            const position = (rangeInput.value - rangeInput.min) / (rangeInput.max - rangeInput.min);
+            valueDisplay.style.left = `calc(${position * 100}%)`;
+        }
+        
+        // Initialize all range values
+        document.addEventListener('DOMContentLoaded', function() {
+            const ranges = document.querySelectorAll('.form-range');
+            ranges.forEach(range => {
+                updateRangeValue(range);
+            });
+            
+            // Animate container
+            document.querySelector('.fertilizer-container').classList.add('animate');
+        });
+        
+        async function getFertilizerRecommendation() {
+            try {
+                const nitrogen = parseInt(document.getElementById("nitrogen").value);
+                const phosphorus = parseInt(document.getElementById("phosphorus").value);
+                const potassium = parseInt(document.getElementById("potassium").value);
+                const ph = parseFloat(document.getElementById("ph").value);
+                const moisture = parseInt(document.getElementById("moisture").value);
+                
+                // Show loading state
+                const button = document.querySelector('.btn-custom');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                button.disabled = true;
+                
+                const response = await fetch('/get_fertilizer_recommendation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        Nitrogen: nitrogen, 
+                        Phosphorus: phosphorus, 
+                        Potassium: potassium, 
+                        pH: ph, 
+                        Moisture: moisture 
+                    })
+                });
+                
+                const result = await response.json();
+                
+                // Reset button state
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // Display result
+                const resultContainer = document.getElementById("resultContainer");
+                const resultElement = document.getElementById("result");
+                const additionalInfo = document.getElementById("additionalInfo");
+                
+                if (result.fertilizer) {
+                    resultElement.innerHTML = `<b>Recommended Fertilizer:</b> ${result.fertilizer}`;
+                    
+                    // Add additional information based on fertilizer type
+                    let additionalContent = '';
+                    switch(result.fertilizer) {
+                        case 'Urea':
+                            additionalContent = `<div class="mt-3">
+                                <p><i class="fas fa-check-circle text-success"></i> High in nitrogen (46%)</p>
+                                <p><i class="fas fa-info-circle text-primary"></i> Best applied 2-3 weeks before planting</p>
+                                <p><i class="fas fa-seedling text-success"></i> Ideal for leafy vegetables and grains</p>
+                            </div>`;
+                            break;
+                        case 'DAP':
+                            additionalContent = `<div class="mt-3">
+                                <p><i class="fas fa-check-circle text-success"></i> Contains both nitrogen (18%) and phosphorus (46%)</p>
+                                <p><i class="fas fa-info-circle text-primary"></i> Good for initial plant growth stages</p>
+                                <p><i class="fas fa-seedling text-success"></i> Ideal for root vegetables and flowering plants</p>
+                            </div>`;
+                            break;
+                        // Add more cases for other fertilizer types
+                        default:
+                            additionalContent = `<div class="mt-3">
+                                <p><i class="fas fa-info-circle text-primary"></i> Apply as directed by the manufacturer</p>
+                                <p><i class="fas fa-seedling text-success"></i> Monitor plant response after application</p>
+                            </div>`;
+                    }
+                    
+                    additionalInfo.innerHTML = additionalContent;
+                } else {
+                    resultElement.innerHTML = `<b>Error:</b> ${result.error || 'Unable to get recommendation. Please try again.'}`;
+                    additionalInfo.innerHTML = '';
+                }
+                
+                resultContainer.style.display = 'block';
+                resultContainer.classList.add('show');
+                
+                // Scroll to result
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById("result").innerHTML = '<b>Error:</b> Failed to process your request. Please try again.';
+                document.getElementById("additionalInfo").innerHTML = '';
+                document.getElementById("resultContainer").style.display = 'block';
+                document.querySelector('.btn-custom').innerHTML = 'GET RECOMMENDATION';
+                document.querySelector('.btn-custom').disabled = false;
+            }
+        }
+        
+        // Chat functionality
+        document.querySelector('.chat-toggle').addEventListener('click', () => {
+            document.querySelector('.chat-container').style.display = 'flex';
+            document.querySelector('.chat-toggle').style.display = 'none';
+        });
+
+        document.querySelector('.close-chat').addEventListener('click', () => {
+            document.querySelector('.chat-container').style.display = 'none';
+            document.querySelector('.chat-toggle').style.display = 'flex';
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            document.querySelector('.chat-messages').appendChild(messageDiv);
+            document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight;
+        }
+
+        async function sendMessage(message) {
+            try {
+                const response = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                return data.response;
+            } catch (error) {
+                console.error('Error:', error);
+                return 'Sorry, I encountered an error. Please try again.';
+            }
+        }
+
+        document.querySelector('.chat-input button').addEventListener('click', async () => {
+            const input = document.querySelector('.chat-input input');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+                
+                const response = await sendMessage(message);
+                addMessage(response);
+            }
+        });
+
+        document.querySelector('.chat-input input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.querySelector('.chat-input button').click();
+            }
+        });
+
+        // Initial greeting
+        setTimeout(() => {
+            addMessage('👋 Hello! Welcome to Krishe Fertilizer Recommendation System. How can I help you today?');
+        }, 1000);
+        
+        // Language translation
+        document.querySelectorAll(".language-option").forEach(item => {
+            item.addEventListener("click", function() {
+                let selectedLang = this.getAttribute("data-lang");
+                localStorage.setItem("selectedLanguage", selectedLang);
+                location.reload();
+            });
+        });
+    
+        async function applyTranslation() {
+            let selectedLang = localStorage.getItem("selectedLanguage") || "en";
+            let response = await fetch("/translate_page", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ lang: selectedLang })
+            });
+            let data = await response.json();
+    
+            // Update elements with data-translate attributes
+            document.querySelectorAll("[data-translate]").forEach(element => {
+                let key = element.getAttribute("data-translate");
+                if (data[key]) {
+                    element.innerHTML = data[key];
+                }
+            });
+    
+            // Update placeholders separately
+            document.querySelectorAll("[data-translate-placeholder]").forEach(element => {
+                let key = element.getAttribute("data-translate-placeholder");
+                if (data[key]) {
+                    element.setAttribute("placeholder", data[key]);
+                }
+            });
+        }
+    
+        applyTranslation();
+    </script>
+  </body>
+</html>
