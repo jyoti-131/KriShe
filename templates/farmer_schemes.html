@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-translate="title_schemes">कृShe - Farmer Schemes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+            :root {
+    --primary-color: #66a80f;
+    --primary-dark: #558b0b;
+    --primary-light: #84c123;
+    --secondary-color: #1e5f74;
+    --light-bg: #f8f9fa;
+    --dark-bg: #212529;
+    --text-dark: #333;
+    --text-light: #f8f9fa;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-dark);
+    background-image: url("{{ url_for('static', filename='new.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    line-height: 1.6;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Updated navbar styles */
+.navbar {
+    background-color: rgba(33, 37, 41, 0.9) !important;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-family: 'Merriweather', serif;
+    font-size: 1.4rem;
+    color: white !important;
+    padding: 0.25rem 0;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 1rem;
+    margin: 0 5px;
+    padding: 0.5rem 0.75rem;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 100px;
+            margin-bottom: 70px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 2.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+.scheme-card {
+    background: linear-gradient(135deg, #2c7a3b, #1e5d2a);
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    perspective: 1000px;
+}
+
+.scheme-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+    transform: skew(-10deg);
+    z-index: 1;
+}
+
+.scheme-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.scheme-card .card-title {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #e6f3e0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.scheme-card .card-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.scheme-card .badge {
+    background-color: rgba(255,255,255,0.2) !important;
+    color: white !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.scheme-card .btn-light {
+    background-color: #f0f4f0;
+    color: #2c7a3b;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.scheme-card .btn-light:hover {
+    background-color: #e0ece0;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+        
+.search-bar {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.search-bar input {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(44, 122, 59, 0.2);
+    border-radius: 30px;
+    padding: 15px 50px 15px 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: #2c7a3b;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #2c7a3b;
+    box-shadow: 0 8px 25px rgba(44, 122, 59, 0.1);
+}
+
+.search-bar input::placeholder {
+    color: rgba(44, 122, 59, 0.6);
+    font-weight: 300;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2c7a3b;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.search-bar input:focus + .search-icon {
+    opacity: 1;
+}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        /* Chat Component Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 15px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: transparent;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 0.95em;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background: #eef5e9;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin-right: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95em;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(102, 168, 15, 0.2);
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(102, 168, 15, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 168, 15, 0.3);
+        }
+
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(102, 168, 15, 0.3);
+        }
+
+        .close-chat {
+            cursor: pointer;
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+        }
+
+        .close-chat:hover {
+            color: #ddd;
+        }
+        
+        /* Animation for content */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        padding-top: 0.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+        margin-top: 100px;
+    }
+    
+    .scheme-image {
+        max-width: 100%;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    .chat-container {
+        width: 90%;
+        right: 5%;
+        bottom: 80px;
+    }
+    
+    .scheme-card {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .container {
+        padding: 25px;
+        margin-top: 90px;
+    }
+    
+    .chat-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .scheme-title {
+        font-size: 1.5rem;
+    }
+    
+    .scheme-card {
+        padding: 10px;
+    }
+}
+
+/* Fix for iPhone notch */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .chat-container,
+    .chat-toggle {
+        right: max(20px, env(safe-area-inset-right));
+        bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    
+    body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"><i class="fas fa-seedling"></i> कृShe</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-translate="language">Language</a>
+              <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                <li><a class="dropdown-item language-option" href="#" data-lang="en">English</a></li>
+                <li><a class="dropdown-item language-option" href="#" data-lang="hi">हिन्दी</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('predict_form') }}" data-translate="predict">Predict</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('about') }}" data-translate="about_us">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('fertilizer_form') }}" data-translate="fertilizer_recommendation">Fertilizer Recommendation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ url_for('farmer_schemes') }}" data-translate="farmer_schemes">Farmer Schemes</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            {% if 'username' in session %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}" data-translate="logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}" data-translate="login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('register') }}" data-translate="register">Register</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container animate">
+        <h1 class="text-center mb-4" data-translate="schemes_title">Farmer Schemes and Resources <i class="fas fa-tractor"></i></h1>
+      
+      <div class="search-bar position-relative">
+        <input type="text" id="schemeSearch" class="form-control" 
+       data-translate="search_schemes" 
+       placeholder="Search for schemes..." 
+       aria-label="Search schemes">
+        <i class="fas fa-search search-icon"></i>
+    </div>
+      
+      <div class="row" id="schemeContainer">
+        <!-- Scheme cards will be dynamically added here -->
+      </div>
+    </div>
+
+    <div class="chat-toggle"><i class="fas fa-comments"></i></div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <span><i class="fas fa-robot me-2"></i>Assistant</span>
+            <span class="close-chat">×</span>
+        </div>
+        <div class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button>Send</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Farmer Schemes Data
+        const farmerSchemes = [
+    {
+        name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+        description: {
+            en: "Direct income support of ₹6,000 per year to small and marginal farmers.",
+            hi: "छोटे और सीमांत किसानों को प्रति वर्ष ₹6,000 की प्रत्यक्ष आय सहायता।"
+        },
+        link: "https://pmkisan.gov.in/",
+        category: {
+            en: "Income Support",
+            hi: "आय सहायता"
+        }
+    },
+    {
+        name: "Pradhan Mantri Fasal Bima Yojana",
+        description: {
+            en: "Crop insurance scheme providing comprehensive risk coverage for agricultural crops.",
+            hi: "कृषि फसलों के लिए व्यापक जोखिम कवरेज प्रदान करने वाली फसल बीमा योजना।"
+        },
+        link: "https://pmfby.gov.in/",
+        category: {
+            en: "Insurance",
+            hi: "बीमा"
+        }
+    },
+    {
+        name: "Soil Health Card Scheme",
+        description: {
+            en: "Provides soil health cards to farmers to help them know the nutrient status of their soil.",
+            hi: "किसानों को उनकी मिट्टी के पोषक तत्व की स्थिति जानने में मदद करने के लिए मिट्टी स्वास्थ्य कार्ड प्रदान करता है।"
+        },
+        link: "https://soilhealth.dac.gov.in/",
+        category: {
+            en: "Agriculture Support",
+            hi: "कृषि सहायता"
+        }
+    },
+    {
+        name: "Kisan Credit Card Scheme",
+        description: {
+            en: "Provides agricultural credit for farmers at subsidized rates.",
+            hi: "किसानों को रियायती दरों पर कृषि ऋण प्रदान करता है।"
+        },
+        link: "https://www.nabard.org/",
+        category: {
+            en: "Financial Support",
+            hi: "वित्तीय सहायता"
+        }
+    },
+    {
+        name: "National Agriculture Market (e-NAM)",
+        description: {
+            en: "Online trading platform for agricultural produce to help farmers get better prices.",
+            hi: "किसानों को बेहतर कीमतें दिलाने में मदद करने के लिए कृषि उत्पादों का ऑनलाइन ट्रेडिंग प्लेटफॉर्म।"
+        },
+        link: "https://enam.gov.in/",
+        category: {
+            en: "Marketing",
+            hi: "विपणन"
+        }
+    },
+    {
+        name: "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
+        description: {
+            en: "Aims to improve water use efficiency at farm levels and expand cultivable area under irrigation.",
+            hi: "फार्म स्तर पर जल उपयोग दक्षता में सुधार करने और सिंचाई के तहत खेती योग्य क्षेत्र का विस्तार करने का लक्ष्य।"
+        },
+        link: "https://pmksy.gov.in/",
+        category: {
+            en: "Infrastructure",
+            hi: "बुनियादी ढांचा"
+        }
+    }
+];
+        // Function to create scheme cards
+        function createSchemeCards(schemes) {
+    const container = document.getElementById('schemeContainer');
+    const selectedLang = localStorage.getItem("selectedLanguage") || "en";
+    container.innerHTML = '';
+    
+    schemes.forEach(scheme => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+            <div class="card scheme-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">${scheme.name}</h5>
+                    <p class="card-text flex-grow-1">${scheme.description[selectedLang]}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="badge bg-light text-dark">${scheme.category[selectedLang]}</span>
+                        <a href="${scheme.link}" target="_blank" class="btn btn-sm btn-light">
+                            Visit Website <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+        // Search functionality
+        document.getElementById('schemeSearch').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const selectedLang = localStorage.getItem("selectedLanguage") || "en";
+    const filteredSchemes = farmerSchemes.filter(scheme => 
+        scheme.name.toLowerCase().includes(searchTerm) || 
+        scheme.description[selectedLang].toLowerCase().includes(searchTerm) ||
+        scheme.category[selectedLang].toLowerCase().includes(searchTerm)
+    );
+    createSchemeCards(filteredSchemes);
+});
+
+        // Chat functionality
+        document.querySelector('.chat-toggle').addEventListener('click', () => {
+            document.querySelector('.chat-container').style.display = 'flex';
+            document.querySelector('.chat-toggle').style.display = 'none';
+        });
+
+        document.querySelector('.close-chat').addEventListener('click', () => {
+            document.querySelector('.chat-container').style.display = 'none';
+            document.querySelector('.chat-toggle').style.display = 'flex';
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            document.querySelector('.chat-messages').appendChild(messageDiv);
+            document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight;
+        }
+
+        async function sendMessage(message) {
+            try {
+                const response = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                return data.response;
+            } catch (error) {
+                console.error('Error:', error);
+                return 'Sorry, I encountered an error. Please try again.';
+            }
+        }
+
+        document.querySelector('.chat-input button').addEventListener('click', async () => {
+            const input = document.querySelector('.chat-input input');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+                
+                const response = await sendMessage(message);
+                addMessage(response);
+            }
+        });
+
+        document.querySelector('.chat-input input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.querySelector('.chat-input button').click();
+            }
+        });
+
+        // Initial greeting
+        setTimeout(() => {
+            addMessage('👋 Hello! Welcome to Krishe. How can I help you today?');
+        }, 1000);
+
+        // Language translation
+document.querySelectorAll(".language-option").forEach(item => {
+    item.addEventListener("click", function() {
+        let selectedLang = this.getAttribute("data-lang");
+        localStorage.setItem("selectedLanguage", selectedLang);
+        location.reload();
+    });
+});
+
+async function applyTranslation() {
+    let selectedLang = localStorage.getItem("selectedLanguage") || "en";
+    let response = await fetch("/translate_page", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lang: selectedLang })
+    });
+    let data = await response.json();
+    document.querySelectorAll("[data-translate]").forEach(element => {
+        let key = element.getAttribute("data-translate");
+        if (data[key]) {
+            if (element.tagName === "INPUT") {
+                element.setAttribute("placeholder", data[key]);
+            } else {
+                element.innerHTML = data[key];
+            }
+        }
+    });
+
+    // Ensure scheme cards are created with the selected language
+    createSchemeCards(farmerSchemes);
+}
+applyTranslation();
+    </script>
+  </body>
+</html>
